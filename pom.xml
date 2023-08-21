@@ -2,57 +2,59 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>app.tozzi.mail</groupId>
+	<groupId>it.dmi.mail</groupId>
 	<artifactId>pec-parser</artifactId>
-	<version>3.0.1</version>
+	<version>1.0.0</version>
 	<name>PEC Parser</name>
-	<description>Utility per la lettura di messaggii di Posta Elettronica Certificata (e posta elettronica ordinaria)</description>
-	<url>https://www.tozzi.app</url>
+	<description>Utility per la lettura di messaggi di Posta Elettronica Certificata (e posta elettronica ordinaria). Fork di https://github.com/biagioT/java-pec-parser</description>
+	<url>http://maven.apache.org</url>
 	<packaging>jar</packaging>
 
-	<licenses>
-		<license>
-			<name>The Apache License, Version 2.0</name>
-			<url>https://github.com/biagioT/java-pec-parser/blob/master/LICENSE</url>
-		</license>
-	</licenses>
+<!--	<licenses>-->
+<!--		<license>-->
+<!--			<name>The Apache License, Version 2.0</name>-->
+<!--			<url>https://github.com/biagioT/java-pec-parser/blob/master/LICENSE</url>-->
+<!--		</license>-->
+<!--	</licenses>-->
 
 	<developers>
 		<developer>
-			<id>biagio.tozzi</id>
-			<name>Biagio Placido Tozzi</name>
-			<email>biagio.tozzi@gmail.com</email>
-			<url>https://www.tozzi.app</url>
+			<id>fabio.portieri</id>
+			<name>Fabio Portieri</name>
+			<email>fabio.portieri@datamanagementitalia.it</email>
+<!--			<url>https://www.tozzi.app</url>-->
 		</developer>
 	</developers>
 
-	<scm>
-		<connection>scm:git:git://github.com:biagioT/java-pec-parser.git</connection>
-		<developerConnection>scm:git:ssh://github.com:biagioT/java-pec-parser.git</developerConnection>
-		<url>https://github.com/biagioT/java-pec-parser/tree/master</url>
-	</scm>
+<!--	<scm>-->
+<!--		<connection>scm:git:git://github.com:biagioT/java-pec-parser.git</connection>-->
+<!--		<developerConnection>scm:git:ssh://github.com:biagioT/java-pec-parser.git</developerConnection>-->
+<!--		<url>https://github.com/biagioT/java-pec-parser/tree/master</url>-->
+<!--	</scm>-->
 
 	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-    		<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
 		<repository>
-			<id>ossrh</id>
-			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<id>nexus-releases</id>
+			<name>nexus-releases</name>
+			<url>http://nexus.intranet.ita:8081/repository/maven-releases/</url>
 		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshot</id>
+			<name>nexus-snapshot</name>
+			<url>http://nexus.intranet.ita:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<properties>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sources.encoding>UTF-8</sources.encoding>
-		<java.version>1.8</java.version>
+		<java.version>1.7</java.version>
 
 		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
-		<maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+<!--		<maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>-->
 		
 		<jakarta.mail.api.version>1.6.7</jakarta.mail.api.version>
 		<jakarta.mail.version>1.6.7</jakarta.mail.version>
@@ -88,11 +90,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>app.tozzi</groupId>
-			<artifactId>uudecoder</artifactId>
-			<version>${uudecoder.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -156,21 +153,47 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>${maven-gpg-plugin.version}</version>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.13</version>
 				<executions>
 					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
+						<id>default-deploy</id>
+						<phase>deploy</phase>
 						<goals>
-							<goal>sign</goal>
+							<goal>deploy</goal>
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<serverId>nexus-releases</serverId>
+					<nexusUrl>http://nexus.intranet.ita:8081/repository/maven-releases/</nexusUrl>
+					<skipStaging>true</skipStaging>
+				</configuration>
 			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-gpg-plugin</artifactId>-->
+<!--				<version>${maven-gpg-plugin.version}</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>sign-artifacts</id>-->
+<!--						<phase>verify</phase>-->
+<!--						<goals>-->
+<!--							<goal>sign</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 

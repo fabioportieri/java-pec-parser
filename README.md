@@ -4,15 +4,21 @@
 
 # PEC/Mail Parser
 
-Utility per l'elaborazione di messaggi di Posta Elettronica Certificata (e messaggi di posta ordinaria)
+Utility per l'elaborazione di messaggi di Posta Elettronica Certificata (e messaggi di posta ordinaria).
+Fork di https://github.com/biagioT/java-pec-parser per jdk 1.7
+
+
+## deploy su next dmi
+
+mvn clean deploy -Dmaven.test.skip=true
 
 ### Utilizzo
 ##### Dipendenza Maven
 ```
 <dependency>
-    <groupId>app.tozzi.mail</groupId>
+    <groupId>it.dmi.mail</groupId>
 	<artifactId>pec-parser</artifactId>
-	<version>3.0.1</version>
+	<version>1.0.0</version>
 </dependency>
 ```
 
